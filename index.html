@@ -1,0 +1,979 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Information Security & Cyber Laws</title>
+<link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;600;800;900&family=Rajdhani:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+<style>
+:root {
+  --cyan: #00f2ff;
+  --cyan2: #00bcd4;
+  --dark: #050d1a;
+  --dark2: #0a1628;
+  --glass: rgba(0,242,255,0.06);
+  --glass-border: rgba(0,242,255,0.18);
+  --text: #cde8ff;
+  --text-muted: #7aa3c8;
+  --nav-h: 70px;
+}
+
+*, *::before, *::after { margin:0; padding:0; box-sizing:border-box; }
+
+html { scroll-behavior: smooth; }
+
+body {
+  font-family: 'Rajdhani', sans-serif;
+  background: var(--dark);
+  color: var(--text);
+  min-height: 100vh;
+  overflow-x: hidden;
+}
+
+/* ANIMATED BACKGROUND */
+body::before {
+  content:'';
+  position:fixed;
+  inset:0;
+  background:
+    radial-gradient(ellipse 60% 50% at 20% 20%, rgba(0,100,180,0.18) 0%, transparent 70%),
+    radial-gradient(ellipse 50% 60% at 80% 80%, rgba(0,180,160,0.12) 0%, transparent 70%),
+    radial-gradient(ellipse 40% 40% at 50% 50%, rgba(0,50,100,0.1) 0%, transparent 80%);
+  pointer-events:none;
+  z-index:0;
+  animation: bgPulse 10s ease-in-out infinite alternate;
+}
+
+@keyframes bgPulse {
+  0%   { opacity:.7; }
+  100% { opacity:1; }
+}
+
+/* GRID LINES */
+body::after {
+  content:'';
+  position:fixed;
+  inset:0;
+  background-image:
+    linear-gradient(rgba(0,242,255,0.03) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(0,242,255,0.03) 1px, transparent 1px);
+  background-size: 50px 50px;
+  pointer-events:none;
+  z-index:0;
+}
+
+/* ====== NAVIGATION ====== */
+nav {
+  position: fixed;
+  top: 0; left: 0; right: 0;
+  height: var(--nav-h);
+  background: rgba(5,13,26,0.88);
+  backdrop-filter: blur(18px);
+  border-bottom: 1px solid var(--glass-border);
+  z-index: 1000;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 0 24px;
+}
+
+.nav-logo {
+  font-family: 'Orbitron', monospace;
+  font-size: 13px;
+  font-weight: 800;
+  color: var(--cyan);
+  letter-spacing: 2px;
+  white-space: nowrap;
+  text-shadow: 0 0 16px rgba(0,242,255,0.5);
+  cursor: pointer;
+  flex-shrink: 0;
+}
+
+.nav-logo span { color: white; }
+
+.nav-links {
+  display: flex;
+  align-items: center;
+  gap: 2px;
+  flex-wrap: nowrap;
+  overflow-x: auto;
+  scrollbar-width: none;
+  padding: 0 12px;
+}
+
+.nav-links::-webkit-scrollbar { display:none; }
+
+.nav-btn {
+  font-family: 'Rajdhani', sans-serif;
+  font-size: 11.5px;
+  font-weight: 600;
+  letter-spacing: 0.8px;
+  color: var(--text-muted);
+  padding: 6px 10px;
+  border-radius: 6px;
+  border: none;
+  background: transparent;
+  cursor: pointer;
+  white-space: nowrap;
+  transition: all 0.22s ease;
+  text-transform: uppercase;
+  position: relative;
+}
+
+.nav-btn:hover, .nav-btn.active {
+  color: var(--cyan);
+  background: rgba(0,242,255,0.08);
+}
+
+.nav-btn.active::after {
+  content:'';
+  position:absolute;
+  bottom:-1px; left:50%; transform:translateX(-50%);
+  width: 70%; height: 2px;
+  background: var(--cyan);
+  border-radius:2px;
+  box-shadow: 0 0 8px var(--cyan);
+}
+
+/* ====== PAGES ====== */
+.page { display:none; min-height:100vh; padding-top: var(--nav-h); position:relative; z-index:1; }
+.page.active { display:block; }
+
+/* ====== HOME PAGE ====== */
+.hero {
+  min-height: calc(100vh - var(--nav-h));
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  text-align: center;
+  padding: 60px 24px 40px;
+  position: relative;
+}
+
+.hero-badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  font-size: 11px;
+  letter-spacing: 3px;
+  text-transform: uppercase;
+  color: var(--cyan);
+  border: 1px solid var(--glass-border);
+  padding: 6px 18px;
+  border-radius: 100px;
+  margin-bottom: 32px;
+  background: rgba(0,242,255,0.05);
+  animation: fadeUp 0.8s ease both;
+}
+
+.hero-badge::before {
+  content:'';
+  width:6px; height:6px;
+  border-radius:50%;
+  background:var(--cyan);
+  box-shadow: 0 0 8px var(--cyan);
+  animation: blink 1.4s ease infinite;
+}
+
+@keyframes blink { 0%,100%{opacity:1;} 50%{opacity:0.3;} }
+
+.hero h1 {
+  font-family: 'Orbitron', monospace;
+  font-size: clamp(28px,5.5vw,72px);
+  font-weight: 900;
+  line-height: 1.1;
+  margin-bottom: 24px;
+  animation: fadeUp 0.9s 0.1s ease both;
+}
+
+.hero h1 .line1 { display:block; color: white; }
+.hero h1 .line2 {
+  display:block;
+  background: linear-gradient(90deg, var(--cyan), #0080ff);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+  filter: drop-shadow(0 0 24px rgba(0,242,255,0.4));
+}
+
+.hero p {
+  max-width: 620px;
+  font-size: 16px;
+  font-weight: 400;
+  color: var(--text-muted);
+  line-height: 1.7;
+  margin-bottom: 48px;
+  animation: fadeUp 1s 0.2s ease both;
+}
+
+@keyframes fadeUp {
+  from { opacity:0; transform:translateY(30px); }
+  to   { opacity:1; transform:translateY(0); }
+}
+
+.hero-cta {
+  animation: fadeUp 1s 0.3s ease both;
+}
+
+.btn-primary {
+  font-family: 'Orbitron', monospace;
+  font-size: 12px;
+  font-weight: 700;
+  letter-spacing: 2px;
+  text-transform: uppercase;
+  color: var(--dark);
+  background: var(--cyan);
+  border: none;
+  padding: 16px 40px;
+  border-radius: 8px;
+  cursor: pointer;
+  transition: all 0.25s ease;
+  box-shadow: 0 0 32px rgba(0,242,255,0.3);
+}
+
+.btn-primary:hover {
+  transform: translateY(-3px) scale(1.04);
+  box-shadow: 0 0 50px rgba(0,242,255,0.55);
+}
+
+/* TOPIC GRID */
+.topics-section {
+  padding: 60px 40px 80px;
+  max-width: 1200px;
+  margin: 0 auto;
+}
+
+.section-label {
+  font-family: 'Orbitron', monospace;
+  font-size: 11px;
+  letter-spacing: 4px;
+  text-transform: uppercase;
+  color: var(--cyan);
+  margin-bottom: 10px;
+}
+
+.section-title {
+  font-family: 'Orbitron', monospace;
+  font-size: clamp(20px, 3vw, 36px);
+  font-weight: 700;
+  color: white;
+  margin-bottom: 40px;
+}
+
+.topic-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+  gap: 20px;
+}
+
+.topic-card {
+  background: var(--glass);
+  border: 1px solid var(--glass-border);
+  border-radius: 16px;
+  padding: 28px 26px;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  position: relative;
+  overflow: hidden;
+  group: true;
+}
+
+.topic-card::before {
+  content:'';
+  position:absolute;
+  top:-60%; left:-60%;
+  width:200%; height:200%;
+  background: radial-gradient(circle, rgba(0,242,255,0.06) 0%, transparent 60%);
+  opacity:0;
+  transition: opacity 0.4s;
+}
+
+.topic-card:hover::before { opacity:1; }
+
+.topic-card:hover {
+  transform: translateY(-8px);
+  border-color: rgba(0,242,255,0.45);
+  box-shadow: 0 16px 48px rgba(0,0,0,0.5), 0 0 24px rgba(0,242,255,0.1);
+}
+
+.topic-icon {
+  font-size: 32px;
+  margin-bottom: 14px;
+}
+
+.topic-card h3 {
+  font-family: 'Orbitron', monospace;
+  font-size: 13px;
+  font-weight: 700;
+  color: white;
+  margin-bottom: 8px;
+  letter-spacing: 0.5px;
+  line-height: 1.4;
+}
+
+.topic-card p {
+  font-size: 13px;
+  color: var(--text-muted);
+  line-height: 1.6;
+}
+
+.topic-arrow {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  margin-top: 16px;
+  font-size: 12px;
+  letter-spacing: 1.5px;
+  text-transform: uppercase;
+  color: var(--cyan);
+  font-weight: 700;
+  transition: gap 0.2s;
+}
+
+.topic-card:hover .topic-arrow { gap: 10px; }
+
+/* ====== CONTENT PAGES ====== */
+.content-page {
+  max-width: 900px;
+  margin: 0 auto;
+  padding: 50px 32px 80px;
+}
+
+.page-header {
+  margin-bottom: 40px;
+  padding-bottom: 28px;
+  border-bottom: 1px solid var(--glass-border);
+}
+
+.page-header .breadcrumb {
+  font-size: 12px;
+  letter-spacing: 1.5px;
+  text-transform: uppercase;
+  color: var(--text-muted);
+  margin-bottom: 14px;
+  cursor: pointer;
+  transition: color 0.2s;
+}
+
+.page-header .breadcrumb:hover { color: var(--cyan); }
+.page-header .breadcrumb span { color: var(--cyan); }
+
+.page-header h1 {
+  font-family: 'Orbitron', monospace;
+  font-size: clamp(22px, 4vw, 44px);
+  font-weight: 800;
+  color: white;
+  line-height: 1.2;
+}
+
+.page-header h1 em {
+  font-style: normal;
+  color: var(--cyan);
+  text-shadow: 0 0 20px rgba(0,242,255,0.4);
+}
+
+.content-card {
+  background: var(--glass);
+  border: 1px solid var(--glass-border);
+  border-radius: 16px;
+  padding: 28px 30px;
+  margin-bottom: 20px;
+  transition: border-color 0.25s, box-shadow 0.25s;
+  animation: fadeUp 0.5s ease both;
+}
+
+.content-card:hover {
+  border-color: rgba(0,242,255,0.3);
+  box-shadow: 0 4px 24px rgba(0,0,0,0.3);
+}
+
+.content-card h2 {
+  font-family: 'Orbitron', monospace;
+  font-size: 15px;
+  font-weight: 700;
+  color: var(--cyan);
+  margin-bottom: 14px;
+  letter-spacing: 0.5px;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.content-card h2::before {
+  content:'';
+  width: 3px; height: 18px;
+  background: var(--cyan);
+  border-radius: 2px;
+  box-shadow: 0 0 8px var(--cyan);
+  flex-shrink:0;
+}
+
+.content-card p {
+  font-size: 15px;
+  line-height: 1.85;
+  color: var(--text);
+  font-weight: 400;
+}
+
+.content-card ul {
+  list-style: none;
+  margin-top: 8px;
+}
+
+.content-card ul li {
+  font-size: 15px;
+  line-height: 1.9;
+  color: var(--text);
+  padding-left: 20px;
+  position: relative;
+}
+
+.content-card ul li::before {
+  content: '▸';
+  position: absolute;
+  left: 0;
+  color: var(--cyan);
+}
+
+.tag-row {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  margin-top: 14px;
+}
+
+.tag {
+  font-size: 11px;
+  letter-spacing: 1px;
+  text-transform: uppercase;
+  color: var(--cyan);
+  background: rgba(0,242,255,0.08);
+  border: 1px solid rgba(0,242,255,0.2);
+  padding: 4px 12px;
+  border-radius: 100px;
+  font-weight: 600;
+}
+
+/* FOOTER */
+footer {
+  position: relative;
+  z-index: 1;
+  text-align: center;
+  padding: 24px;
+  font-size: 12px;
+  letter-spacing: 1.5px;
+  text-transform: uppercase;
+  color: var(--text-muted);
+  border-top: 1px solid var(--glass-border);
+  background: rgba(5,13,26,0.6);
+}
+
+footer span { color: var(--cyan); }
+
+/* SCANLINE EFFECT */
+.scanline {
+  position:fixed;
+  top:0; left:0; right:0;
+  height: 2px;
+  background: linear-gradient(90deg, transparent, var(--cyan), transparent);
+  opacity: 0.15;
+  pointer-events:none;
+  z-index: 9999;
+  animation: scanDown 6s linear infinite;
+}
+
+@keyframes scanDown {
+  0%   { top: 0; }
+  100% { top: 100%; }
+}
+
+/* Stagger card animations */
+.content-card:nth-child(1) { animation-delay: 0.05s; }
+.content-card:nth-child(2) { animation-delay: 0.12s; }
+.content-card:nth-child(3) { animation-delay: 0.19s; }
+.content-card:nth-child(4) { animation-delay: 0.26s; }
+
+/* Responsive */
+@media (max-width: 700px) {
+  .nav-logo { font-size: 10px; }
+  .nav-btn  { font-size: 10px; padding: 5px 6px; }
+  .topics-section { padding: 40px 18px 60px; }
+  .content-page { padding: 30px 18px 60px; }
+}
+</style>
+</head>
+<body>
+
+<div class="scanline"></div>
+
+<!-- ====== NAVIGATION ====== -->
+<nav>
+  <div class="nav-logo" onclick="showPage('home')">CYBER<span>LAW</span></div>
+  <div class="nav-links">
+    <button class="nav-btn active" onclick="showPage('home')">Home</button>
+    <button class="nav-btn" onclick="showPage('infosec')">Info Security</button>
+    <button class="nav-btn" onclick="showPage('ipr')">IPR</button>
+    <button class="nav-btn" onclick="showPage('copyright')">Copyright</button>
+    <button class="nav-btn" onclick="showPage('digital')">Digital Security</button>
+    <button class="nav-btn" onclick="showPage('ict')">ICT Policy</button>
+    <button class="nav-btn" onclick="showPage('cyberlaw')">Cyber Law</button>
+    <button class="nav-btn" onclick="showPage('cybercrime')">Cyber Crime</button>
+    <button class="nav-btn" onclick="showPage('malware')">Malware</button>
+    <button class="nav-btn" onclick="showPage('sectech')">Security Tech</button>
+  </div>
+</nav>
+
+<!-- ====== HOME PAGE ====== -->
+<div class="page active" id="page-home">
+  <section class="hero">
+    <div class="hero-badge">Chapter 8 · Lab Report</div>
+    <h1>
+      <span class="line1">Information Security</span>
+      <span class="line2">&amp; Cyber Laws</span>
+    </h1>
+    <p>Comprehensive coverage of the CIA Triad, Intellectual Property Rights, Cyber Laws of Nepal, Cyber Crimes, Malware, and Cyber Security Technologies.</p>
+    <div class="hero-cta">
+      <button class="btn-primary" onclick="scrollToTopics()">Explore Topics ↓</button>
+    </div>
+  </section>
+
+  <section class="topics-section" id="topics">
+    <div class="section-label">Chapter 8</div>
+    <div class="section-title">All Topics</div>
+    <div class="topic-grid">
+      <div class="topic-card" onclick="showPage('infosec')">
+        <div class="topic-icon">🔐</div>
+        <h3>Information Security (CIA Triad)</h3>
+        <p>Confidentiality, Integrity, and Availability — the foundational pillars of information security.</p>
+        <div class="topic-arrow">Explore →</div>
+      </div>
+      <div class="topic-card" onclick="showPage('ipr')">
+        <div class="topic-icon">💡</div>
+        <h3>Intellectual Property &amp; IPR</h3>
+        <p>Legal protections for creative and intellectual works, promoting innovation and fair competition.</p>
+        <div class="topic-arrow">Explore →</div>
+      </div>
+      <div class="topic-card" onclick="showPage('copyright')">
+        <div class="topic-icon">©️</div>
+        <h3>Copyright, Patent &amp; Trademark</h3>
+        <p>Types of intellectual property protection including copyright, patents, trademarks, and trade secrets.</p>
+        <div class="topic-arrow">Explore →</div>
+      </div>
+      <div class="topic-card" onclick="showPage('digital')">
+        <div class="topic-icon">🔑</div>
+        <h3>Digital Signature &amp; Encryption</h3>
+        <p>Cryptographic techniques ensuring authenticity, integrity, and security of digital communications.</p>
+        <div class="topic-arrow">Explore →</div>
+      </div>
+      <div class="topic-card" onclick="showPage('ict')">
+        <div class="topic-icon">🇳🇵</div>
+        <h3>ICT Policy in Nepal</h3>
+        <p>Nepal's national framework for developing ICT infrastructure, e-governance, and digital economy.</p>
+        <div class="topic-arrow">Explore →</div>
+      </div>
+      <div class="topic-card" onclick="showPage('cyberlaw')">
+        <div class="topic-icon">⚖️</div>
+        <h3>Cyber Laws in Nepal</h3>
+        <p>The Electronic Transactions Act (ETA 2063) and legal provisions governing cyber activities in Nepal.</p>
+        <div class="topic-arrow">Explore →</div>
+      </div>
+      <div class="topic-card" onclick="showPage('cybercrime')">
+        <div class="topic-icon">🕵️</div>
+        <h3>Cyber Crimes</h3>
+        <p>Illegal activities conducted via computers or the internet, from hacking to identity theft.</p>
+        <div class="topic-arrow">Explore →</div>
+      </div>
+      <div class="topic-card" onclick="showPage('malware')">
+        <div class="topic-icon">🦠</div>
+        <h3>Malicious Software</h3>
+        <p>Types of malware including viruses, worms, ransomware, spyware, and how they operate.</p>
+        <div class="topic-arrow">Explore →</div>
+      </div>
+      <div class="topic-card" onclick="showPage('sectech')">
+        <div class="topic-icon">🛡️</div>
+        <h3>Cyber Security Technologies</h3>
+        <p>Prevention, control, and management technologies used to defend against cyber threats.</p>
+        <div class="topic-arrow">Explore →</div>
+      </div>
+    </div>
+  </section>
+
+  <footer>
+    <p>Chapter 8 Lab Report · <span>Information Security &amp; Cyber Laws</span> · HTML Project</p>
+  </footer>
+</div>
+
+<!-- ====== INFORMATION SECURITY ====== -->
+<div class="page" id="page-infosec">
+  <div class="content-page">
+    <div class="page-header">
+      <div class="breadcrumb" onclick="showPage('home')">← <span>Home</span> / Information Security</div>
+      <h1>Information Security <br><em>CIA Triad</em></h1>
+    </div>
+
+    <div class="content-card">
+      <h2>Introduction</h2>
+      <p>Information Security is the practice of protecting information from unauthorized access, disclosure, alteration, or destruction. It ensures that digital data remains safe and secure in organizations and personal systems.</p>
+    </div>
+
+    <div class="content-card">
+      <h2>Confidentiality</h2>
+      <p>Confidentiality ensures that sensitive information is accessible only to authorized individuals. It prevents data leakage and protects privacy.</p>
+      <div class="tag-row">
+        <span class="tag">Encryption</span>
+        <span class="tag">Strong Passwords</span>
+        <span class="tag">MFA</span>
+        <span class="tag">Access Control</span>
+      </div>
+    </div>
+
+    <div class="content-card">
+      <h2>Integrity</h2>
+      <p>Integrity ensures that data remains accurate and unchanged unless modified by authorized users. Any unauthorized modification is detected and prevented.</p>
+      <div class="tag-row">
+        <span class="tag">Hashing</span>
+        <span class="tag">Digital Signatures</span>
+        <span class="tag">Version Control</span>
+        <span class="tag">Checksums</span>
+      </div>
+    </div>
+
+    <div class="content-card">
+      <h2>Availability</h2>
+      <p>Availability ensures that systems and data are accessible whenever required by authorized users, preventing disruption to business operations.</p>
+      <div class="tag-row">
+        <span class="tag">Backup Systems</span>
+        <span class="tag">Disaster Recovery</span>
+        <span class="tag">Cloud Storage</span>
+        <span class="tag">System Maintenance</span>
+      </div>
+    </div>
+  </div>
+  <footer><p>Chapter 8 Lab Report · <span>Information Security</span></p></footer>
+</div>
+
+<!-- ====== INTELLECTUAL PROPERTY ====== -->
+<div class="page" id="page-ipr">
+  <div class="content-page">
+    <div class="page-header">
+      <div class="breadcrumb" onclick="showPage('home')">← <span>Home</span> / IPR</div>
+      <h1>Intellectual Property <br><em>&amp; IPR</em></h1>
+    </div>
+
+    <div class="content-card">
+      <h2>Intellectual Property</h2>
+      <p>Intellectual Property refers to creations of the human mind such as inventions, artistic works, designs, names, and symbols used in business. It is intangible but holds significant economic value.</p>
+    </div>
+
+    <div class="content-card">
+      <h2>Intellectual Property Rights</h2>
+      <p>IPR are legal protections that give creators exclusive rights over their creations. It prevents unauthorized copying and promotes innovation by rewarding original creators.</p>
+    </div>
+
+    <div class="content-card">
+      <h2>Importance of IPR</h2>
+      <ul>
+        <li>Encourages creativity and innovation</li>
+        <li>Protects ownership of original work</li>
+        <li>Promotes fair competition in the market</li>
+        <li>Contributes to national economic growth</li>
+        <li>Gives creators financial incentive</li>
+      </ul>
+    </div>
+  </div>
+  <footer><p>Chapter 8 Lab Report · <span>Intellectual Property</span></p></footer>
+</div>
+
+<!-- ====== COPYRIGHT, PATENT, TRADEMARK ====== -->
+<div class="page" id="page-copyright">
+  <div class="content-page">
+    <div class="page-header">
+      <div class="breadcrumb" onclick="showPage('home')">← <span>Home</span> / Copyright &amp; Patent</div>
+      <h1>Copyright, Patent, <br><em>Trademark &amp; Trade Secrets</em></h1>
+    </div>
+
+    <div class="content-card">
+      <h2>Copyright</h2>
+      <p>Copyright protects original creative works such as books, music, movies, software, and artistic works. It gives the creator exclusive rights to reproduce, distribute, and display their work. Copyright is automatic upon creation.</p>
+    </div>
+
+    <div class="content-card">
+      <h2>Patent</h2>
+      <p>A patent protects new inventions and gives the inventor exclusive rights for typically 20 years. It prevents others from making, using, or selling the invention without permission. Patents encourage technological innovation.</p>
+    </div>
+
+    <div class="content-card">
+      <h2>Trademark</h2>
+      <p>A trademark protects logos, symbols, brand names, and slogans that distinguish goods or services from others. It helps consumers identify products and builds brand identity and trust in the marketplace.</p>
+    </div>
+
+    <div class="content-card">
+      <h2>Trade Secrets</h2>
+      <p>Trade secrets include confidential business information such as formulas, recipes, manufacturing processes, and marketing strategies that give a company competitive advantage. Unlike patents, they have no expiry as long as they remain secret.</p>
+    </div>
+  </div>
+  <footer><p>Chapter 8 Lab Report · <span>Copyright &amp; Patent</span></p></footer>
+</div>
+
+<!-- ====== DIGITAL SECURITY ====== -->
+<div class="page" id="page-digital">
+  <div class="content-page">
+    <div class="page-header">
+      <div class="breadcrumb" onclick="showPage('home')">← <span>Home</span> / Digital Security</div>
+      <h1>Digital Signature <br><em>&amp; Cryptography</em></h1>
+    </div>
+
+    <div class="content-card">
+      <h2>Digital Signature</h2>
+      <p>A digital signature is an electronic method used to verify the authenticity and integrity of digital messages or documents. It provides non-repudiation — the sender cannot deny having sent the message.</p>
+    </div>
+
+    <div class="content-card">
+      <h2>Digital Certificate</h2>
+      <p>A digital certificate is an electronic document issued by a Certificate Authority (CA) to verify identity in online communication. It contains the public key and identity information of the owner.</p>
+    </div>
+
+    <div class="content-card">
+      <h2>Public Key &amp; Private Key</h2>
+      <p>Public Key is shared openly to encrypt data. Private Key is kept secret and used to decrypt data. Together they form asymmetric encryption — a cornerstone of modern cybersecurity.</p>
+      <div class="tag-row">
+        <span class="tag">RSA</span>
+        <span class="tag">Asymmetric Encryption</span>
+        <span class="tag">PKI</span>
+      </div>
+    </div>
+
+    <div class="content-card">
+      <h2>Hashing</h2>
+      <p>Hashing converts data into a fixed-length string. It ensures data integrity because even a small change in input produces a completely different hash value. Common algorithms include SHA-256 and MD5.</p>
+      <div class="tag-row">
+        <span class="tag">SHA-256</span>
+        <span class="tag">MD5</span>
+        <span class="tag">One-Way Function</span>
+      </div>
+    </div>
+  </div>
+  <footer><p>Chapter 8 Lab Report · <span>Digital Security</span></p></footer>
+</div>
+
+<!-- ====== ICT POLICY ====== -->
+<div class="page" id="page-ict">
+  <div class="content-page">
+    <div class="page-header">
+      <div class="breadcrumb" onclick="showPage('home')">← <span>Home</span> / ICT Policy</div>
+      <h1>ICT Policy <br><em>in Nepal</em></h1>
+    </div>
+
+    <div class="content-card">
+      <h2>Introduction</h2>
+      <p>The ICT Policy of Nepal aims to develop information and communication technology to promote economic growth, digital governance, and social development across the country.</p>
+    </div>
+
+    <div class="content-card">
+      <h2>Objectives</h2>
+      <ul>
+        <li>Expand internet access across the country</li>
+        <li>Promote e-governance services for citizens</li>
+        <li>Develop IT industries and employment opportunities</li>
+        <li>Strengthen cyber security infrastructure nationwide</li>
+        <li>Promote digital literacy at all levels</li>
+      </ul>
+    </div>
+
+    <div class="content-card">
+      <h2>Importance</h2>
+      <p>The ICT policy supports digital transformation in education, health, banking, and government services, helping Nepal move towards a knowledge-based digital economy and reducing the digital divide.</p>
+    </div>
+  </div>
+  <footer><p>Chapter 8 Lab Report · <span>ICT Policy in Nepal</span></p></footer>
+</div>
+
+<!-- ====== CYBER LAW ====== -->
+<div class="page" id="page-cyberlaw">
+  <div class="content-page">
+    <div class="page-header">
+      <div class="breadcrumb" onclick="showPage('home')">← <span>Home</span> / Cyber Law</div>
+      <h1>Cyber Laws <br><em>in Nepal</em></h1>
+    </div>
+
+    <div class="content-card">
+      <h2>Electronic Transactions Act (ETA) 2063</h2>
+      <p>The Electronic Transactions Act (2008 AD) is Nepal's main cyber law. It addresses cyber crimes, digital signatures, electronic records, and online fraud — providing a legal framework for digital activities.</p>
+    </div>
+
+    <div class="content-card">
+      <h2>Main Provisions</h2>
+      <ul>
+        <li>Legal recognition of digital signatures</li>
+        <li>Punishment for hacking and online fraud</li>
+        <li>Regulation of electronic records and evidence</li>
+        <li>Protection against cyber harassment and stalking</li>
+        <li>Offenses related to unauthorized access</li>
+      </ul>
+    </div>
+
+    <div class="content-card">
+      <h2>Importance of Cyber Law</h2>
+      <p>Cyber laws protect individuals, businesses, and the government from digital threats. They provide legal recourse for victims of cyber crime and establish accountability in the digital space.</p>
+    </div>
+  </div>
+  <footer><p>Chapter 8 Lab Report · <span>Cyber Law in Nepal</span></p></footer>
+</div>
+
+<!-- ====== CYBER CRIME ====== -->
+<div class="page" id="page-cybercrime">
+  <div class="content-page">
+    <div class="page-header">
+      <div class="breadcrumb" onclick="showPage('home')">← <span>Home</span> / Cyber Crime</div>
+      <h1>Cyber <br><em>Crimes</em></h1>
+    </div>
+
+    <div class="content-card">
+      <h2>Definition</h2>
+      <p>Cyber crime refers to illegal activities conducted using computers or the internet. It encompasses a wide range of offenses targeting individuals, corporations, and governments in the digital space.</p>
+    </div>
+
+    <div class="content-card">
+      <h2>Types of Cyber Crimes</h2>
+      <ul>
+        <li>Hacking — unauthorized access to systems</li>
+        <li>Phishing — fraudulent attempts to steal credentials</li>
+        <li>Identity theft — stealing personal information</li>
+        <li>Online fraud — financial scams and deception</li>
+        <li>Cyber bullying — harassment via digital platforms</li>
+        <li>Spreading malware — distributing harmful software</li>
+      </ul>
+    </div>
+
+    <div class="content-card">
+      <h2>Impact of Cyber Crimes</h2>
+      <ul>
+        <li>Financial loss to individuals and organizations</li>
+        <li>Privacy breaches and data exposure</li>
+        <li>Reputational damage to businesses</li>
+        <li>Threats to national security and critical infrastructure</li>
+        <li>Psychological harm to victims</li>
+      </ul>
+    </div>
+  </div>
+  <footer><p>Chapter 8 Lab Report · <span>Cyber Crimes</span></p></footer>
+</div>
+
+<!-- ====== MALWARE ====== -->
+<div class="page" id="page-malware">
+  <div class="content-page">
+    <div class="page-header">
+      <div class="breadcrumb" onclick="showPage('home')">← <span>Home</span> / Malware</div>
+      <h1>Malicious <br><em>Software (Malware)</em></h1>
+    </div>
+
+    <div class="content-card">
+      <h2>Definition</h2>
+      <p>Malware is software intentionally designed to damage, disrupt, or gain unauthorized access to computer systems. It is one of the most significant threats in modern cybersecurity.</p>
+    </div>
+
+    <div class="content-card">
+      <h2>Types of Malware</h2>
+      <ul>
+        <li><strong>Virus</strong> — Attaches to files and spreads when executed</li>
+        <li><strong>Worm</strong> — Self-replicates and spreads across networks</li>
+        <li><strong>Trojan Horse</strong> — Disguises as legitimate software</li>
+        <li><strong>Ransomware</strong> — Encrypts data and demands payment</li>
+        <li><strong>Spyware</strong> — Secretly monitors user activity</li>
+        <li><strong>Adware</strong> — Displays unwanted advertisements</li>
+      </ul>
+    </div>
+
+    <div class="content-card">
+      <h2>Prevention</h2>
+      <div class="tag-row">
+        <span class="tag">Antivirus Software</span>
+        <span class="tag">Regular Updates</span>
+        <span class="tag">Firewalls</span>
+        <span class="tag">Safe Browsing</span>
+        <span class="tag">Email Filtering</span>
+      </div>
+    </div>
+  </div>
+  <footer><p>Chapter 8 Lab Report · <span>Malware</span></p></footer>
+</div>
+
+<!-- ====== CYBER SECURITY TECHNOLOGIES ====== -->
+<div class="page" id="page-sectech">
+  <div class="content-page">
+    <div class="page-header">
+      <div class="breadcrumb" onclick="showPage('home')">← <span>Home</span> / Security Tech</div>
+      <h1>Cyber Security <br><em>Technologies</em></h1>
+    </div>
+
+    <div class="content-card">
+      <h2>Prevention (Before Attack)</h2>
+      <ul>
+        <li>Firewall — filters incoming and outgoing network traffic</li>
+        <li>Antivirus software — detects and removes malware</li>
+        <li>Encryption — protects data confidentiality</li>
+        <li>Strong authentication systems — MFA, biometrics</li>
+        <li>Security awareness training for users</li>
+      </ul>
+    </div>
+
+    <div class="content-card">
+      <h2>Control (During Attack)</h2>
+      <ul>
+        <li>Intrusion Detection Systems (IDS) — monitors network for suspicious activity</li>
+        <li>Intrusion Prevention Systems (IPS) — actively blocks threats</li>
+        <li>Network monitoring tools — real-time traffic analysis</li>
+        <li>SIEM — Security Information and Event Management</li>
+      </ul>
+    </div>
+
+    <div class="content-card">
+      <h2>Management (After Attack)</h2>
+      <ul>
+        <li>Incident response plan — structured approach to handle breaches</li>
+        <li>Data backup and recovery — restoring from clean backups</li>
+        <li>Forensic investigation — analyzing the attack for evidence</li>
+        <li>Security updates and patches — closing exploited vulnerabilities</li>
+      </ul>
+    </div>
+  </div>
+  <footer><p>Chapter 8 Lab Report · <span>Cyber Security Technologies</span></p></footer>
+</div>
+
+<script>
+const pages = {
+  home: 'page-home',
+  infosec: 'page-infosec',
+  ipr: 'page-ipr',
+  copyright: 'page-copyright',
+  digital: 'page-digital',
+  ict: 'page-ict',
+  cyberlaw: 'page-cyberlaw',
+  cybercrime: 'page-cybercrime',
+  malware: 'page-malware',
+  sectech: 'page-sectech'
+};
+
+function showPage(key) {
+  // Hide all pages
+  document.querySelectorAll('.page').forEach(p => p.classList.remove('active'));
+  // Show target
+  document.getElementById(pages[key]).classList.add('active');
+  // Update nav
+  const navBtns = document.querySelectorAll('.nav-btn');
+  navBtns.forEach((btn, i) => {
+    btn.classList.remove('active');
+    const pageKeys = Object.keys(pages);
+    if (pageKeys[i] === key) btn.classList.add('active');
+  });
+  // Scroll to top
+  window.scrollTo({ top: 0, behavior: 'smooth' });
+}
+
+function scrollToTopics() {
+  document.getElementById('topics').scrollIntoView({ behavior: 'smooth' });
+}
+</script>
+</body>
+</html>
